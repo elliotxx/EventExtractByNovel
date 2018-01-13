@@ -5,33 +5,23 @@ import jieba.posseg as pseg
 
 filename = 'test.txt'
 
-trigger = [
-'杀',
-'突破',
-'吃',
-'说道',
-'笑道',
-'吼道',
-'锻炼',
-'扫',
-'为首',
-'瞧不起',
-'修炼',
-'闭关',
-'打熬',
-'锻炼',
-'训练',
-'扫向',
-'诱导',
-'羡慕',
-'抓',
-'甩',
-'震',
-'砸',
-'拼命',
-'名叫',		# v, 姓名，身份
+# 设置主题词
+theme = [
+'林雷',
 ]
-trigger = [w.decode('utf8') for w in trigger]
+theme = [w.decode('utf8') for w in theme]
+
+# 设置事件类别
+event_type = {
+0:'修炼',
+1:'说话',
+2:'突破',
+3:'战斗',
+4:'行动',
+}
+
+# 自定义字典
+jieba.add_word('林雷', 15, 'n')
 
 fp = open(filename, 'rb')
 for line in fp:
@@ -48,18 +38,27 @@ for line in fp:
 		words.append(w.word)
 		flags.append(w.flag)
 
-	print words
-	print flags
-
 	# 匹配触发词
-	for w, f in zip(words, flags):
-		if 'v' in f and w in trigger:
-			print line
-			print w, f
-			break
+	isTrigger = False
+	for i, w in enumerate(words):
+		if  w in theme and \
+			( (i+1 < len(words) and flags[i+1]=='v') or\
+			  (i+2 < len(words) and flags[i+2]=='v') ):
+			# 这句话包含主题词 且 主题词后面两个词其中之一为动词
+			if not isTrigger:
+				print line
+				isTrigger = True
+			if i-1 >= 0:
+				print words[i-1], flags[i-1]
+			print w, flags[i]
+			if i+1 < len(words):
+				print words[i+1], flags[i+1]
+			if i+2 < len(words):
+				print words[i+2], flags[i+2]
+			# break
 
 	# 事件元素识别
 	
 
-
-	os.system('pause')
+	if isTrigger:
+		os.system('pause')
