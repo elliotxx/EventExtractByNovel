@@ -83,11 +83,15 @@ for line in fp:
 
 	# 匹配触发词
 	# isTrigger = False
+	isTrigger = {k:False for k in theme}
 	for i, w in enumerate(words):
 		if  w in theme and \
 			( (i+1 < len(words) and flags[i+1]=='v') or\
 			  (i+2 < len(words) and flags[i+2]=='v') ) and\
 			(i-1 >= 0 and 'v' not in flags[i-1]):
+			# 这个主题词没触发过
+			if isTrigger[w]:
+				continue
 			# 这句话包含主题词 且 主题词后面两个词其中之一为动词
 			# 触发成功
 			# 构造特征向量
@@ -96,23 +100,37 @@ for line in fp:
 				continue
 			feature = np.array([[float(x) for x in feature]])
 
-			# 筛掉预测率低于8%的结果
+			# 筛掉预测率低于80%的结果
 			proba_list = clf.predict_proba(feature)
 			if not (any([x>0.7 for x in proba_list[0]])):
-				break
+				continue 
 
-			# 输出这句话
+			# 输出预测信息
+			isTrigger[w] = True
 			print line
 			print 'Word freq:'
 			print feature
 			print 'Predict res:'
 			y_hat = clf.predict(feature)
-			print event_type[int(y_hat[0])]
+			predict_event_type = event_type[int(y_hat[0])]
+			print predict_event_type
 			print proba_list
 
-			os.system('pause')
-			print ''
-			break
+			# 将结果输出到对应的文件中
+			filename_temp = '%s_%s.txt'%(w.encode('gbk'), predict_event_type.encode('gbk'))
+			if not os.path.exists(filename_temp):
+				ft = open(filename_temp, 'w')
+				ft.close()
+			ft = open(filename_temp, 'a')
+			ft.write(line.encode('utf8'))
+			ft.write('\n')
+			ft.write('\n')
+			ft.close()
+
+			# os.system('pause')
+			# print ''
+			# break
+
 
 
 
