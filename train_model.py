@@ -28,8 +28,8 @@ print 'Test accuracy:'
 print clf.score(x_test, y_test)
 # print x_test
 y_hat = clf.predict(x_test)
-print 'Predict ans:'
-print y_hat
+# print 'Predict ans:'
+# print y_hat
 # show_accuracy(y_hat, y_test, '测试集')
 
 
