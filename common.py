@@ -49,6 +49,11 @@ event_type = {k:v.decode('utf8') for k,v in event_type.items()}
 # 文件名转换为 gbk 编码
 text_filename = '《盘龙》.txt'.decode('utf8').encode('gbk')
 
+# 归一化处理函数
+def MaxMinNormalization(x, Max, Min):  
+    '''归一化'''
+    x = (x - Min) / (Max - Min);  
+    return x;  
 
 # 主题段落迭代器
 class ThemeLineIterator(object):

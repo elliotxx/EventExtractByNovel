@@ -67,3 +67,6 @@ http://blog.csdn.net/ghostfromheaven/article/details/11880251
 
 * 文本分类与SVM  
 http://blog.csdn.net/zhzhl202/article/details/8197109
+
+* 基于支持向量机SVM的文本分类的实现  
+http://blog.csdn.net/qq_30189255/article/details/54571370

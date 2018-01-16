@@ -7,11 +7,16 @@ from common import *
 
 
 # 训练分类器
-# 读取
+# 读取原始词频特征向量
 data = np.loadtxt(train_data_filename, dtype=float, delimiter=',')
 
+# 提取特征向量和标签
+X, y = np.split(data, (16,), axis=1)
+
+# 对特征向量归一化处理
+x = MaxMinNormalization(X, np.max(X), np.min(X))
+
 # 分割为训练集和测试集
-x, y = np.split(data, (16,), axis=1)
 x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=1, train_size=0.6)
 
 # 训练svm分类器
@@ -43,6 +48,9 @@ for w, line in ThemeLineIterator(text_filename):
     if not any(feature):
         continue
     feature = np.array([[float(x) for x in feature]])
+
+    # 特征向量归一化处理
+    feature = MaxMinNormalization(feature, np.max(X), np.min(X))
 
     # 筛掉预测率低于70%的结果
     proba_list = clf.predict_proba(feature)
