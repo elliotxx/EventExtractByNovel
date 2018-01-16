@@ -70,3 +70,6 @@ http://blog.csdn.net/zhzhl202/article/details/8197109
 
 * 基于支持向量机SVM的文本分类的实现  
 http://blog.csdn.net/qq_30189255/article/details/54571370
+
+* 几种归一化方法（Normalization Method）python实现  
+http://blog.csdn.net/kryolith/article/details/39770187
