@@ -64,3 +64,6 @@ https://www.cnblogs.com/luyaoblog/p/6775342.html
 
 * 【Python】在Python中自定义迭代器Iterator  
 http://blog.csdn.net/ghostfromheaven/article/details/11880251
+
+* 文本分类与SVM  
+http://blog.csdn.net/zhzhl202/article/details/8197109
